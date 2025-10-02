@@ -8,7 +8,8 @@ namespace UB
     {
         public static PlayerCamera Instance { get; private set; }
 
-        private CinemachineCamera followCamera;
+        public CinemachineCamera FollowCamera { get; private set; }
+        public Camera MainCamera { get; private set; }
 
         private void Awake()
         {
@@ -16,16 +17,22 @@ namespace UB
 
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            followCamera = GetComponentInChildren<CinemachineCamera>();
-            followCamera.enabled = false;
+            MainCamera = Camera.main;
+            FollowCamera = GetComponentInChildren<CinemachineCamera>();
+            FollowCamera.enabled = false;
         }
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
             if (newScene.buildIndex == WorldSaveGameManager.Instance.WorldSceneIndex) {
-                followCamera.enabled = true;
-            } else {
-                //followCamera.enabled = false;
+                if (PlayerManager.Instance == null) {
+                    Debug.Log("is null");
+                }
+                FollowCamera.Target = new CameraTarget { TrackingTarget = PlayerManager.Instance.transform };
+                FollowCamera.enabled = true;
+            }
+            else {
+                FollowCamera.enabled = false;
             }
         }
 
@@ -39,7 +46,8 @@ namespace UB
             if (Instance == null) {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else {
+            }
+            else {
                 Destroy(gameObject);
             }
         }

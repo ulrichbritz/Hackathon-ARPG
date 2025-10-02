@@ -31,6 +31,7 @@ namespace UB
             HandleGroundedMovement();
 
             // Rotation
+            HandleRotation();
 
             // Ground Check
         }
@@ -60,6 +61,19 @@ namespace UB
             }
 
             // TODO: Maybe add an else for other speeds
+        }
+
+        private void HandleRotation()
+        {
+            Vector3 mouseDirection = PlayerInputManager.Instance.MouseDirection;
+
+            if (mouseDirection != Vector3.zero) {
+                // Create rotation towards mouse direction
+                Quaternion targetRotation = Quaternion.LookRotation(mouseDirection);
+
+                // Smoothly rotate towards target
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
         }
     }
 }

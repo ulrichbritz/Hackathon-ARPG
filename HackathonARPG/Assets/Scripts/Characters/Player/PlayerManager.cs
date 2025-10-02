@@ -4,6 +4,7 @@ namespace UB
 {
     public class PlayerManager : CharacterManager
     {
+        public static PlayerManager Instance { get; private set; }
         private PlayerLocomotionManager playerLocomotionManager;
         private PlayerAnimatorManager playerAnimatorManager;
 
@@ -25,6 +26,22 @@ namespace UB
 
             // Handle all player movement
             playerLocomotionManager.HandleAllMovement();
+        }
+
+        private void CreateInstance()
+        {
+            if (Instance == null) {
+                Instance = this;
+            }
+        }
+
+        protected override void OnNetworkPostSpawn()
+        {
+            base.OnNetworkPostSpawn();
+
+            if (IsOwner) {
+                CreateInstance();
+            }
         }
     }
 }

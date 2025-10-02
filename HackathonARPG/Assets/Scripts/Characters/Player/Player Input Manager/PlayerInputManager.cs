@@ -13,6 +13,9 @@ namespace UB
         public float horizontalInput { get; private set; }
         public float MovementAmount { get; private set; }
 
+        public Vector2 MousePosition { get; private set; }
+        public Vector3 MouseDirection { get; private set; }
+
         private void Awake()
         {
             CreateInstance();
@@ -46,6 +49,7 @@ namespace UB
         private void Update()
         {
             HandleMovementInput();
+            HandleMouseInput();
         }
 
         //Movement Input
@@ -57,6 +61,24 @@ namespace UB
             MovementAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
 
             // TODO: Maybe clamp e.g if moveamount <= 05f, then moveamount = 0.5f;
+        }
+
+        //Mouse Input
+        private void HandleMouseInput()
+        {
+            if (PlayerManager.Instance == null) {
+                return;
+            }
+            MousePosition = playerControls.MouseActions.MousePosition.ReadValue<Vector2>();
+
+            // Get player's screen position
+            Vector3 playerScreenPos = PlayerCamera.Instance.MainCamera.WorldToScreenPoint(PlayerManager.Instance.transform.position);
+
+            // Calculate direction from player to mouse in screen space
+            Vector2 screenDirection = MousePosition - new Vector2(playerScreenPos.x, playerScreenPos.y);
+
+            // Convert to normalized direction (just for rotation, not actual world position)
+            MouseDirection = new Vector3(screenDirection.x, 0, screenDirection.y).normalized;
         }
 
         private void CreateInstance()
