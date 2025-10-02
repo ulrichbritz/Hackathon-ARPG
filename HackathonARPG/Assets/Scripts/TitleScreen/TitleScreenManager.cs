@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using AsyncRoutines;
 
 namespace UB
 {
@@ -17,7 +18,18 @@ namespace UB
 
         public void JoinGame()
         {
+            WorldRoutineManager.Instance.Run(JoinGameAsync());
+        }
+
+        private async Routine JoinGameAsync()
+        {
             NetworkManager.Singleton.Shutdown();
+            
+            // Wait until NetworkManager is actually shut down
+            while (NetworkManager.Singleton.IsListening) {
+                await RoutineBase.WaitForNextFrame();
+            }
+            
             NetworkManager.Singleton.StartClient();
         }
     }
