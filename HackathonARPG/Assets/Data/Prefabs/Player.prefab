@@ -1241,7 +1241,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3673817210286407743}
   - component: {fileID: 7213686458394827333}
+  - component: {fileID: 620082453584269498}
   - component: {fileID: 3271490763580104997}
+  - component: {fileID: 3427220742984668571}
   - component: {fileID: 6998871101374505967}
   - component: {fileID: 2544558756982249380}
   m_Layer: 0
@@ -1291,6 +1293,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!143 &620082453584269498
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4159027961068444293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.84
+  m_Radius: 0.21
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.89, z: 0}
 --- !u!114 &3271490763580104997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,6 +1343,23 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &3427220742984668571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4159027961068444293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212debe0256f1084090bd7e4f93601bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  networkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  NetworkPositionVelocity: {x: 0, y: 0, z: 0}
+  NetworkPositionSmoothTime: 0.1
 --- !u!114 &6998871101374505967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1328,6 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4738aff942ebbb44ab2529fea880a1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &2544558756982249380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1340,6 +1385,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9a45e56ea8f6746ab2e142c26364fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalMovement: 0
+  horizontalMovement: 0
+  moveAmount: 0
+  runningSpeed: 5
 --- !u!1 &4211917508309367262
 GameObject:
   m_ObjectHideFlags: 0

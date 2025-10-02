@@ -19,6 +19,9 @@ namespace UB
         {
             base.Update();
 
+            if (!IsOwner) {
+                return;
+            }
 
             // Handle all player movement
             playerLocomotionManager.HandleAllMovement();

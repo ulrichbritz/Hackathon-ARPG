@@ -9,6 +9,9 @@ namespace UB
         private PlayerControls playerControls;
 
         private Vector2 movementInput;
+        public float verticalInput { get; private set; }
+        public float horizontalInput { get; private set; }
+        public float MovementAmount { get; private set; }
 
         private void Awake()
         {
@@ -23,7 +26,8 @@ namespace UB
         {
             if (newScene.buildIndex == WorldSaveGameManager.Instance.WorldSceneIndex) {
                 Instance.enabled = true;
-            } else {
+            }
+            else {
                 Instance.enabled = false;
             }
         }
@@ -39,13 +43,42 @@ namespace UB
             playerControls.Enable();
         }
 
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
+        //Movement Input
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+
+            MovementAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+
+            // TODO: Maybe clamp e.g if moveamount <= 05f, then moveamount = 0.5f;
+        }
+
         private void CreateInstance()
         {
             if (Instance == null) {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else {
+            }
+            else {
                 Destroy(gameObject);
+            }
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled) {
+                if (focus) {
+                    playerControls.Enable();
+                }
+                else {
+                    playerControls.Disable();
+                }
             }
         }
 
