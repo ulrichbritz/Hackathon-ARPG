@@ -56,5 +56,38 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "HackathonARPG.sln"
+    "dotnet.defaultSolution": "HackathonARPG.sln",
+    // C# Formatting Settings to match your style
+    "omnisharp.enableEditorConfigSupport": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    // C# specific formatting
+    "[csharp]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    // C# Code Style Settings
+    "dotnet.format.enable": true,
+    "csharp.format.enable": true,
+    // Brace style settings
+    "csharp.newLine.braceControl": false,
+    "csharp.newLine.braceMethod": true,
+    "csharp.newLine.braceProperty": true,
+    "csharp.newLine.braceAccessor": true,
+    "csharp.newLine.braceAnonymousMethod": false,
+    "csharp.newLine.braceAnonymousType": false,
+    "csharp.newLine.braceInitializer": false,
+    // Spacing settings
+    "csharp.space.betweenEmptySquareBrackets": false,
+    "csharp.space.betweenSquareBrackets": false,
+    "csharp.space.afterKeywordsInControl": true,
+    "csharp.space.betweenParentheses": false,
+    "csharp.space.betweenMethodCallParentheses": false,
+    "csharp.space.betweenMethodDeclarationParentheses": false,
+    "csharp.space.afterComma": true,
+    "csharp.space.afterSemicolon": true,
+    "csharp.space.aroundBinaryOperator": "before_and_after",
+    "csharp.space.aroundAssignmentOperator": "before_and_after"
 }

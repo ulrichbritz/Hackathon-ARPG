@@ -1,0 +1,103 @@
+{
+    "Unity MonoBehaviour (UB)": {
+        "prefix": "monobehaviour",
+        "body": [
+            "using UnityEngine;",
+            "",
+            "namespace UB",
+            "{",
+            "    public class ${1:${TM_FILENAME_BASE}} : MonoBehaviour",
+            "    {",
+            "        private void Awake()",
+            "        {",
+            "            ${0}",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Create a MonoBehaviour class with UB namespace"
+    },
+    "Unity MonoBehaviour Simple (UB)": {
+        "prefix": "mono",
+        "body": [
+            "using UnityEngine;",
+            "",
+            "namespace UB",
+            "{",
+            "    public class ${1:${TM_FILENAME_BASE}} : MonoBehaviour",
+            "    {",
+            "        ${0}",
+            "    }",
+            "}"
+        ],
+        "description": "Create a simple MonoBehaviour class with UB namespace (no methods)"
+    },
+    "Unity Singleton MonoBehaviour (UB)": {
+        "prefix": "singleton",
+        "body": [
+            "using UnityEngine;",
+            "",
+            "namespace UB",
+            "{",
+            "    public class ${1:${TM_FILENAME_BASE}} : MonoBehaviour",
+            "    {",
+            "        public static ${1:${TM_FILENAME_BASE}} Instance { get; private set; }",
+            "",
+            "        private void Awake()",
+            "        {",
+            "            CreateInstance();",
+            "        }",
+            "",
+            "        private void CreateInstance()",
+            "        {",
+            "            if (Instance == null) {",
+            "                Instance = this;",
+            "                DontDestroyOnLoad(gameObject);",
+            "            }",
+            "            else {",
+            "                Destroy(gameObject);",
+            "            }",
+            "        }",
+            "",
+            "        ${0}",
+            "    }",
+            "}"
+        ],
+        "description": "Create a singleton MonoBehaviour class with UB namespace"
+    },
+    "Unity NetworkBehaviour (UB)": {
+        "prefix": "networkbehaviour",
+        "body": [
+            "using UnityEngine;",
+            "using Unity.Netcode;",
+            "",
+            "namespace UB",
+            "{",
+            "    public class ${1:${TM_FILENAME_BASE}} : NetworkBehaviour",
+            "    {",
+            "        public override void OnNetworkSpawn()",
+            "        {",
+            "            ${0}",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Create a NetworkBehaviour class with UB namespace"
+    },
+    "Unity ScriptableObject (UB)": {
+        "prefix": "scriptableobject",
+        "body": [
+            "using UnityEngine;",
+            "",
+            "namespace UB",
+            "{",
+            "    [CreateAssetMenu(fileName = \"New${1:${TM_FILENAME_BASE}}\", menuName = \"UB/${1:${TM_FILENAME_BASE}}\")]",
+            "    public class ${1:${TM_FILENAME_BASE}} : ScriptableObject",
+            "    {",
+            "        ${0}",
+            "    }",
+            "}"
+        ],
+        "description": "Create a ScriptableObject class with UB namespace"
+    }
+}
