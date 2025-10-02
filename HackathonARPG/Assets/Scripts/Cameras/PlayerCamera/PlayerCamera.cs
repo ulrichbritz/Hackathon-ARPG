@@ -28,7 +28,7 @@ namespace UB
                 if (PlayerManager.Instance == null) {
                     Debug.Log("is null");
                 }
-                FollowCamera.Target = new CameraTarget { TrackingTarget = PlayerManager.Instance.transform };
+                //FollowCamera.Target = new CameraTarget { TrackingTarget = PlayerManager.Instance.transform };
                 FollowCamera.enabled = true;
             }
             else {
@@ -38,7 +38,7 @@ namespace UB
 
         private void OnEnable()
         {
-            // Get the player as target
+
         }
 
         private void CreateInstance()
@@ -50,6 +50,11 @@ namespace UB
             else {
                 Destroy(gameObject);
             }
+        }
+
+        public void GetNewTarget(PlayerManager newTarget)
+        {
+            FollowCamera.Target = new CameraTarget { TrackingTarget = newTarget.transform };
         }
 
         private void OnDestroy()

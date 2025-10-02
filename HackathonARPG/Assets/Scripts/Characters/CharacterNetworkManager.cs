@@ -14,5 +14,16 @@ namespace UB
 
         public Vector3 NetworkPositionVelocity;
         public float NetworkPositionSmoothTime = 0.1f;
+
+        [Header("Rotation")]
+        public NetworkVariable<Quaternion> networkRotation = new NetworkVariable<Quaternion>(
+        Quaternion.identity,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+        );
+
+        public float NetworkRotationSmoothTime = 0.1f;
+
+
     }
 }

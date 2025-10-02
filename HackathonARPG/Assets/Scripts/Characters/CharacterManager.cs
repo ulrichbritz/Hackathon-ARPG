@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -22,12 +23,21 @@ namespace UB
         {
             if (IsOwner) {
                 characterNetworkManager.networkPosition.Value = transform.position;
-            } else {
+                characterNetworkManager.networkRotation.Value = transform.rotation;
+            }
+            else {
+                // Position
                 transform.position = Vector3.SmoothDamp(
                     transform.position,
                     characterNetworkManager.networkPosition.Value,
                     ref characterNetworkManager.NetworkPositionVelocity,
                     characterNetworkManager.NetworkPositionSmoothTime
+                    );
+                // Rotation
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    characterNetworkManager.networkRotation.Value,
+                    characterNetworkManager.NetworkRotationSmoothTime
                     );
             }
         }

@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace UB
@@ -41,6 +42,8 @@ namespace UB
 
             if (IsOwner) {
                 CreateInstance();
+
+                PlayerCamera.Instance.GetNewTarget(this);
             }
         }
     }
