@@ -13,7 +13,7 @@ namespace UB
 
         public void PlayRollSoundFX()
         {
-
+            audioSource.PlayOneShot(WorldSoundFXManager.Instance.rollSoundFX);
         }
     }
 }

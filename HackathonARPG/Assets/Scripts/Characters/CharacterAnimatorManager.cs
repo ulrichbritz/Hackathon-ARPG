@@ -5,21 +5,26 @@ namespace UB
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
-        private float snappedVerticalAnimatorParameter;
-        private float snappedHorizontalAnimatorParameter;
+        private int vertical;
+        private int horizontal;
 
         private CharacterManager character;
 
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
+
+            vertical = Animator.StringToHash("Vertical");
+            horizontal = Animator.StringToHash("Horizontal");
         }
 
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, float smoothTime = 0.1f)
         {
+            float horizontalAmount = horizontalValue;
+            float verticalAmount = verticalValue;
             // TODO Create and Use SnapValues (clamped values) if animations dont look good blended
-            character.animator.SetFloat("Horizontal", horizontalValue, smoothTime, Time.deltaTime);
-            character.animator.SetFloat("Vertical", verticalValue, smoothTime, Time.deltaTime);
+            character.animator.SetFloat(horizontal, horizontalAmount, smoothTime, Time.deltaTime);
+            character.animator.SetFloat(vertical, verticalAmount, smoothTime, Time.deltaTime);
         }
 
         public virtual void PlayTargetAnimation(

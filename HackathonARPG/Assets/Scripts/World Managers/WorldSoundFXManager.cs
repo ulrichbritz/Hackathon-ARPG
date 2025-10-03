@@ -6,6 +6,9 @@ namespace UB
     {
         public static WorldSoundFXManager Instance { get; private set; }
 
+        [Header("Action Sound FX")]
+        public AudioClip rollSoundFX;
+
         private void Awake()
         {
             CreateInstance();

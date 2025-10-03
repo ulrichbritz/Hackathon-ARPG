@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc8a75caff27e44a93ceb48e1b8a74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rollSoundFX: {fileID: 8300000, guid: 36189973727808247a00e0fc88ff7a73, type: 3}
