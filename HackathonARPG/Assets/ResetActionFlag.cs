@@ -18,6 +18,7 @@ namespace UB
             character.IsPerformingAction = false;
             character.CanMove = true;
             character.CanRotate = true;
+            character.animator.applyRootMotion = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

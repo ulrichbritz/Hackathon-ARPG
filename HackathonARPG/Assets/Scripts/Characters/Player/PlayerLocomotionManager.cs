@@ -57,7 +57,7 @@ namespace UB
             HandleGroundedMovement();
 
 
-            HandleAnimationParameters();
+            HandleMovementAnimationParameters();
 
             // Rotation
             HandleRotation();
@@ -69,6 +69,7 @@ namespace UB
         {
             verticalMovement = PlayerInputManager.Instance.verticalInput;
             horizontalMovement = PlayerInputManager.Instance.horizontalInput;
+            moveAmount = PlayerInputManager.Instance.MovementAmount;
 
             // TODO maybe clamp the movement amount
         }
@@ -105,7 +106,7 @@ namespace UB
             }
         }
 
-        private void HandleAnimationParameters()
+        private void HandleMovementAnimationParameters()
         {
             // Get the movement amount (0.5 for walk, 1.0 for run)
             float movementAmount = PlayerInputManager.Instance.MovementAmount;
