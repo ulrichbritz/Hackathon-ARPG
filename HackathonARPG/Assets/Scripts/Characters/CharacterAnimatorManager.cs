@@ -1,9 +1,13 @@
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 namespace UB
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
+        private float snappedVerticalAnimatorParameter;
+        private float snappedHorizontalAnimatorParameter;
+
         private CharacterManager character;
 
         protected virtual void Awake()

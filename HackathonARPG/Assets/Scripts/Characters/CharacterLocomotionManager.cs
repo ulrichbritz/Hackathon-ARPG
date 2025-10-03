@@ -9,6 +9,11 @@ namespace UB
 
         }
 
+        protected virtual void Update()
+        {
+
+        }
+
         protected virtual void OnDestroy()
         {
 

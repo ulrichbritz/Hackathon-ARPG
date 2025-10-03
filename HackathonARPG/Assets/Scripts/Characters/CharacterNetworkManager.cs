@@ -24,6 +24,25 @@ namespace UB
 
         public float NetworkRotationSmoothTime = 0.1f;
 
+        [Header("Animator")]
+        public NetworkVariable<float> networkAnimatorHorizontalParameter = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+        );
+
+        public NetworkVariable<float> networkAnimatorVerticalParameter = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+        );
+
+        //TODO not sure if we even need move amount with our movement
+        public NetworkVariable<float> networkMoveAmountParameter = new NetworkVariable<float>(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+        );
 
     }
 }

@@ -13,6 +13,12 @@ namespace UB
         [HideInInspector]
         public float moveAmount;
 
+        // Relative movement values for animations and networking animations
+        [HideInInspector]
+        public float relativeHorizontalMovement;
+        [HideInInspector]
+        public float relativeVerticalMovement;
+
         private Vector3 moveDirection;
 
         [SerializeField]
@@ -23,6 +29,24 @@ namespace UB
             base.Awake();
 
             player = GetComponent<PlayerManager>();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (player.IsOwner) {
+                player.characterNetworkManager.networkAnimatorHorizontalParameter.Value = relativeHorizontalMovement;
+                player.characterNetworkManager.networkAnimatorVerticalParameter.Value = relativeVerticalMovement;
+                player.characterNetworkManager.networkMoveAmountParameter.Value = moveAmount;
+            }
+            else {
+                moveAmount = player.characterNetworkManager.networkMoveAmountParameter.Value;
+                relativeHorizontalMovement = player.characterNetworkManager.networkAnimatorHorizontalParameter.Value;
+                relativeVerticalMovement = player.characterNetworkManager.networkAnimatorVerticalParameter.Value;
+
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(relativeHorizontalMovement, relativeVerticalMovement);
+            }
         }
 
         public void HandleAllMovement()
@@ -83,16 +107,15 @@ namespace UB
             if (worldMovement.magnitude > 0.1f) {
                 // Transform world movement to local space relative to player's facing direction
                 Vector3 localMovement = transform.InverseTransformDirection(worldMovement);
-
-                // Update animator with relative movement values
-                // localMovement.x = strafe (left/right relative to facing direction)
-                // localMovement.z = forward/back relative to facing direction
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(localMovement.x, localMovement.z);
+                relativeHorizontalMovement = localMovement.x;
+                relativeVerticalMovement = localMovement.z;
             }
             else {
-                // No movement - idle
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
+                relativeHorizontalMovement = 0;
+                relativeVerticalMovement = 0;
             }
+
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(relativeHorizontalMovement, relativeVerticalMovement);
         }
 
         private void HandleRotation()

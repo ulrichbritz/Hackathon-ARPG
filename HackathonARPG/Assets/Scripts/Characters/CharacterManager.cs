@@ -6,12 +6,10 @@ namespace UB
 {
     public class CharacterManager : NetworkBehaviour
     {
-        [HideInInspector]
         public CharacterController characterController { get; private set; }
-        [HideInInspector]
         public Animator animator { get; private set; }
 
-        private CharacterNetworkManager characterNetworkManager;
+        public CharacterNetworkManager characterNetworkManager { get; private set; }
 
         protected virtual void Awake()
         {
