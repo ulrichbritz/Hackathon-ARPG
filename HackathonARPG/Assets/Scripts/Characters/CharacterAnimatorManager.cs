@@ -22,12 +22,21 @@ namespace UB
             character.animator.SetFloat("Vertical", verticalValue, smoothTime, Time.deltaTime);
         }
 
-        public virtual void PlayTargetAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, float crossfadeDuration = 0.2f)
+        public virtual void PlayTargetAnimation(
+            string targetAnimation,
+            bool isPerformingAction,
+            bool applyRootMotion = true,
+            bool canRotate = false,
+            bool canMove = false,
+            float crossfadeDuration = 0.2f
+            )
         {
             character.animator.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(targetAnimation, crossfadeDuration);
             // Can stop character from attempting actions while busy with another action
-            character.isPerformingAction = isPerformingAction;
+            character.IsPerformingAction = isPerformingAction;
+            character.CanRotate = canRotate;
+            character.CanMove = canMove;
         }
 
         protected virtual void OnDestroy()

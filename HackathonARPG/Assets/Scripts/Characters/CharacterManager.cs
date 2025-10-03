@@ -12,7 +12,9 @@ namespace UB
         public CharacterNetworkManager characterNetworkManager { get; private set; }
 
         [Header("Flags")]
-        public bool isPerformingAction = false;
+        public bool IsPerformingAction = false;
+        public bool CanRotate = true;
+        public bool CanMove = true;
 
         protected virtual void Awake()
         {

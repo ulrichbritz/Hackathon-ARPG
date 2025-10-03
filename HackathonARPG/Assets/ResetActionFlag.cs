@@ -15,7 +15,9 @@ namespace UB
             }
 
             // Reset action flag when entering empty animation state (so after an action animation is done)
-            character.isPerformingAction = false;
+            character.IsPerformingAction = false;
+            character.CanMove = true;
+            character.CanRotate = true;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

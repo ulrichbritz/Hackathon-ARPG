@@ -75,7 +75,7 @@ namespace UB
 
         private void HandleGroundedMovement()
         {
-            if (player.isPerformingAction) {
+            if (!player.CanMove) {
                 return;
             }
 
@@ -107,10 +107,6 @@ namespace UB
 
         private void HandleAnimationParameters()
         {
-            if (player.isPerformingAction) {
-                return;
-            }
-
             // Get the movement amount (0.5 for walk, 1.0 for run)
             float movementAmount = PlayerInputManager.Instance.MovementAmount;
 
@@ -135,7 +131,7 @@ namespace UB
 
         private void HandleRotation()
         {
-            if (player.isPerformingAction) {
+            if (!player.CanRotate) {
                 return;
             }
 
@@ -152,12 +148,12 @@ namespace UB
 
         public void AttemptPerformToRoll()
         {
-            if (player.isPerformingAction) {
+            if (player.IsPerformingAction) {
                 return;
             }
 
             if (moveAmount > 0) {
-                // roll in movement direction
+                // Roll in movement direction
                 rollDirection = moveDirection;
 
                 rollDirection.y = 0;
@@ -166,11 +162,11 @@ namespace UB
                 Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
                 player.transform.rotation = playerRotation;
 
-                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", true, true, false, 0.2f);
+                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", isPerformingAction: true, applyRootMotion: true, canRotate: false, canMove: false, crossfadeDuration: 0.2f);
             }
             else {
                 // Roll in current facing direction
-                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", true, true, false, 0.2f);
+                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", isPerformingAction: true, applyRootMotion: true, canRotate: false, canMove: false, crossfadeDuration: 0.2f);
             }
 
 
