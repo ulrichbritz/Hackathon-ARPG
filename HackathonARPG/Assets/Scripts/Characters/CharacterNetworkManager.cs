@@ -5,6 +5,13 @@ namespace UB
 {
     public class CharacterNetworkManager : NetworkBehaviour
     {
+        private CharacterManager character;
+
+        protected virtual void Awake()
+        {
+            character = GetComponent<CharacterManager>();
+        }
+
         [Header("Position")]
         public NetworkVariable<Vector3> NetworkPosition = new NetworkVariable<Vector3>(
         Vector3.zero,
@@ -37,14 +44,32 @@ namespace UB
         NetworkVariableWritePermission.Owner
         );
 
-        //TODO not sure if we even need move amount with our movement
-        /*
-        public NetworkVariable<float> networkMoveAmountParameter = new NetworkVariable<float>(
-        0f,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Owner
-        );
-        */
+
+        // Called from client to server
+        [ServerRpc]
+        public void NotifyServerOfActionAnimationServerRPC(ulong clientID, string animationID, bool applyRootMotion)
+        {
+            // If this character is the SERVER/HOST then activate the client rpc
+            if (IsServer) {
+                PlayActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
+            }
+        }
+
+        // Called from server to all clients
+        [ClientRpc]
+        public void PlayActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
+        {
+            // Making sure we don't play the animation twice on the character who sent it
+            if (clientID != NetworkManager.Singleton.LocalClientId) {
+                PerformActionAnimationFromServer(animationID, applyRootMotion);
+            }
+        }
+
+        private void PerformActionAnimationFromServer(string animationID, bool applyRootMotion)
+        {
+            character.animator.applyRootMotion = applyRootMotion;
+            character.animator.CrossFade(animationID, 0.2f);
+        }
 
     }
 }

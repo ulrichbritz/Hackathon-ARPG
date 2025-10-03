@@ -1,5 +1,5 @@
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace UB
 {
@@ -37,6 +37,13 @@ namespace UB
             character.IsPerformingAction = isPerformingAction;
             character.CanRotate = canRotate;
             character.CanMove = canMove;
+
+            // Tell the SERVER/HOST to play the animation for all clients
+            character.characterNetworkManager.NotifyServerOfActionAnimationServerRPC(
+                NetworkManager.Singleton.LocalClientId,
+                targetAnimation,
+                applyRootMotion
+                );
         }
 
         protected virtual void OnDestroy()
