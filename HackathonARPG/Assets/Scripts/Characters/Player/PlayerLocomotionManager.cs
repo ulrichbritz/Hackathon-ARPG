@@ -36,14 +36,14 @@ namespace UB
             base.Update();
 
             if (player.IsOwner) {
-                player.characterNetworkManager.networkAnimatorHorizontalParameter.Value = relativeHorizontalMovement;
-                player.characterNetworkManager.networkAnimatorVerticalParameter.Value = relativeVerticalMovement;
-                player.characterNetworkManager.networkMoveAmountParameter.Value = moveAmount;
+                player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value = relativeHorizontalMovement;
+                player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value = relativeVerticalMovement;
+                //player.characterNetworkManager.networkMoveAmountParameter.Value = moveAmount;
             }
             else {
-                moveAmount = player.characterNetworkManager.networkMoveAmountParameter.Value;
-                relativeHorizontalMovement = player.characterNetworkManager.networkAnimatorHorizontalParameter.Value;
-                relativeVerticalMovement = player.characterNetworkManager.networkAnimatorVerticalParameter.Value;
+                //moveAmount = player.characterNetworkManager.networkMoveAmountParameter.Value;
+                relativeHorizontalMovement = player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value;
+                relativeVerticalMovement = player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value;
 
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(relativeHorizontalMovement, relativeVerticalMovement);
             }
@@ -101,14 +101,19 @@ namespace UB
 
         private void HandleAnimationParameters()
         {
+            // Get the movement amount (0.5 for walk, 1.0 for run)
+            float movementAmount = PlayerInputManager.Instance.MovementAmount;
+
             // Calculate movement direction relative to where the player is facing
             Vector3 worldMovement = new Vector3(horizontalMovement, 0, verticalMovement);
 
             if (worldMovement.magnitude > 0.1f) {
                 // Transform world movement to local space relative to player's facing direction
                 Vector3 localMovement = transform.InverseTransformDirection(worldMovement);
-                relativeHorizontalMovement = localMovement.x;
-                relativeVerticalMovement = localMovement.z;
+
+                // Clamp to either 0 or movementAmount based on direction
+                relativeHorizontalMovement = Mathf.Abs(localMovement.x) > 0.1f ? (localMovement.x > 0 ? movementAmount : -movementAmount) : 0;
+                relativeVerticalMovement = Mathf.Abs(localMovement.z) > 0.1f ? (localMovement.z > 0 ? movementAmount : -movementAmount) : 0;
             }
             else {
                 relativeHorizontalMovement = 0;

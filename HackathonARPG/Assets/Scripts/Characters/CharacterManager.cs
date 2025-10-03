@@ -24,21 +24,21 @@ namespace UB
         protected virtual void Update()
         {
             if (IsOwner) {
-                characterNetworkManager.networkPosition.Value = transform.position;
-                characterNetworkManager.networkRotation.Value = transform.rotation;
+                characterNetworkManager.NetworkPosition.Value = transform.position;
+                characterNetworkManager.NetworkRotation.Value = transform.rotation;
             }
             else {
                 // Position
                 transform.position = Vector3.SmoothDamp(
                     transform.position,
-                    characterNetworkManager.networkPosition.Value,
+                    characterNetworkManager.NetworkPosition.Value,
                     ref characterNetworkManager.NetworkPositionVelocity,
                     characterNetworkManager.NetworkPositionSmoothTime
                     );
                 // Rotation
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
-                    characterNetworkManager.networkRotation.Value,
+                    characterNetworkManager.NetworkRotation.Value,
                     characterNetworkManager.NetworkRotationSmoothTime
                     );
             }
