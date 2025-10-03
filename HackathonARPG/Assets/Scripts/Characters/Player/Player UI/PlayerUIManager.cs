@@ -2,13 +2,17 @@ using UnityEngine;
 
 namespace UB
 {
-    public class WorldPlayerUIManager : MonoBehaviour
+    public class PlayerUIManager : MonoBehaviour
     {
-        public static WorldPlayerUIManager Instance { get; private set; }
+        public static PlayerUIManager Instance { get; private set; }
+
+        public PlayerUIHudManager PlayerUIHudManager { get; private set; }
 
         private void Awake()
         {
             CreateInstance();
+
+            PlayerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
         }
 
         private void CreateInstance()
@@ -16,7 +20,7 @@ namespace UB
             if (Instance == null) {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            } 
+            }
             else {
                 Destroy(gameObject);
             }

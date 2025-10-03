@@ -368,6 +368,7 @@ GameObject:
   - component: {fileID: 7650479823087606452}
   - component: {fileID: 5192262083917712107}
   - component: {fileID: 2729253807491530104}
+  - component: {fileID: 2913312201063187317}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -585,6 +586,22 @@ MonoBehaviour:
     m_InternalValue: 0
   NetworkAnimatorVerticalParameter:
     m_InternalValue: 0
+  Strength:
+    m_InternalValue: 0
+  Constitution:
+    m_InternalValue: 0
+  Dexterity:
+    m_InternalValue: 0
+  Intelligence:
+    m_InternalValue: 0
+  Wisdom:
+    m_InternalValue: 0
+  Charisma:
+    m_InternalValue: 0
+  CurrentMana:
+    m_InternalValue: 0
+  MaxMana:
+    m_InternalValue: 0
 --- !u!114 &4053096018326866956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,6 +636,7 @@ MonoBehaviour:
   runningSpeed: 5
   RelativeHorizontalMovement: 0
   RelativeVerticalMovement: 0
+  dodgeManaCost: 5
 --- !u!114 &5192262083917712107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +661,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b391d9acccf2ed458bf06f1295409f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2913312201063187317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330131206350041489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f565c673068bce140a908bbb96d16143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manaRegenerationDelay: 1
+  manaTickTimer: 0
+  manaRegenerationRate: 1
 --- !u!1 &2151953166206262866
 GameObject:
   m_ObjectHideFlags: 0

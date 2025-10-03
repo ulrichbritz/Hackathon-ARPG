@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d75393894ec0fd045bb85c1b4f8cb8f8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 193804
+  packageName: Complete RPG Gui Pack - MMO Game UI kit
+  packageVersion: 1.0
+  assetPath: Assets/rpg mmo/Script/RpgMenu.cs
+  uploadId: 429514

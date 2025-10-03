@@ -26,6 +26,7 @@ namespace UB
 
         [Header("Roll Settings")]
         private Vector3 rollDirection;
+        [SerializeField] private float dodgeManaCost = 5f; // TODO This is just here while testing mana system
 
         protected override void Awake()
         {
@@ -153,6 +154,11 @@ namespace UB
                 return;
             }
 
+            if (player.PlayerNetworkManager.CurrentMana.Value < dodgeManaCost) {    //todo also temporary
+                // Not enough mana to roll
+                return;
+            }
+
             if (moveAmount > 0) {
                 // Roll in movement direction
                 rollDirection = moveDirection;
@@ -170,7 +176,7 @@ namespace UB
                 player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", isPerformingAction: true, applyRootMotion: true, canRotate: false, canMove: false, crossfadeDuration: 0.2f);
             }
 
-
+            player.PlayerNetworkManager.CurrentMana.Value -= Mathf.RoundToInt(dodgeManaCost);
         }
 
         protected override void OnDestroy()
