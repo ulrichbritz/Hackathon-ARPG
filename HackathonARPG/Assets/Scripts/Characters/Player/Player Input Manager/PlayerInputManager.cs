@@ -70,13 +70,6 @@ namespace UB
             else if (MovementAmount > 0.5 && MovementAmount <= 1) {
                 MovementAmount = 1;
             }
-
-            if (player == null) {
-                return;
-            }
-
-            // Not passing horizontal because we dont want strafing animations
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, MovementAmount);
         }
 
         //Mouse Input

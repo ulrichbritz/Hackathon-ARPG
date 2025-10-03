@@ -30,6 +30,9 @@ namespace UB
             // Handle Grounded Movement
             HandleGroundedMovement();
 
+
+            HandleAnimationParameters();
+
             // Rotation
             HandleRotation();
 
@@ -69,6 +72,26 @@ namespace UB
             else if (movementAmount > 0) {
                 // move at walk speed
                 player.characterController.Move(moveDirection * (runningSpeed * 0.5f) * Time.deltaTime);
+            }
+        }
+
+        private void HandleAnimationParameters()
+        {
+            // Calculate movement direction relative to where the player is facing
+            Vector3 worldMovement = new Vector3(horizontalMovement, 0, verticalMovement);
+
+            if (worldMovement.magnitude > 0.1f) {
+                // Transform world movement to local space relative to player's facing direction
+                Vector3 localMovement = transform.InverseTransformDirection(worldMovement);
+
+                // Update animator with relative movement values
+                // localMovement.x = strafe (left/right relative to facing direction)
+                // localMovement.z = forward/back relative to facing direction
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(localMovement.x, localMovement.z);
+            }
+            else {
+                // No movement - idle
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
             }
         }
 
