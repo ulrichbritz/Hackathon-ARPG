@@ -8,6 +8,8 @@ namespace UB
     {
         [HideInInspector]
         public CharacterController characterController { get; private set; }
+        [HideInInspector]
+        public Animator animator { get; private set; }
 
         private CharacterNetworkManager characterNetworkManager;
 
@@ -17,6 +19,8 @@ namespace UB
 
             characterController = GetComponent<CharacterController>();
             characterNetworkManager = GetComponent<CharacterNetworkManager>();
+
+            animator = GetComponent<Animator>();
         }
 
         protected virtual void Update()
@@ -40,6 +44,13 @@ namespace UB
                     characterNetworkManager.NetworkRotationSmoothTime
                     );
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            characterController = null;
+            animator = null;
+            characterNetworkManager = null;
         }
     }
 }

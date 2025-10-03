@@ -6,8 +6,8 @@ namespace UB
     public class PlayerManager : CharacterManager
     {
         public static PlayerManager Instance { get; private set; }
-        private PlayerLocomotionManager playerLocomotionManager;
-        private PlayerAnimatorManager playerAnimatorManager;
+        public PlayerLocomotionManager playerLocomotionManager { get; private set; }
+        public PlayerAnimatorManager playerAnimatorManager { get; private set; }
 
         protected override void Awake()
         {
@@ -31,9 +31,7 @@ namespace UB
 
         private void CreateInstance()
         {
-            if (Instance == null) {
-                Instance = this;
-            }
+            Instance = this;
         }
 
         protected override void OnNetworkPostSpawn()
@@ -42,9 +40,22 @@ namespace UB
 
             if (IsOwner) {
                 CreateInstance();
-
+                PlayerCamera.Instance.playerManager = this;
                 PlayerCamera.Instance.GetNewTarget(this);
+                PlayerInputManager.Instance.player = this;
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (Instance == this) {
+                Instance = null;
+            }
+
+            playerLocomotionManager = null;
+            playerAnimatorManager = null;
         }
     }
 }

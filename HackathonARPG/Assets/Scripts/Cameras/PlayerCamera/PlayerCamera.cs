@@ -11,6 +11,8 @@ namespace UB
         public CinemachineCamera FollowCamera { get; private set; }
         public Camera MainCamera { get; private set; }
 
+        public PlayerManager playerManager;
+
         private void Awake()
         {
             CreateInstance();
@@ -25,10 +27,9 @@ namespace UB
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
             if (newScene.buildIndex == WorldSaveGameManager.Instance.WorldSceneIndex) {
-                if (PlayerManager.Instance == null) {
-                    Debug.Log("is null");
+                if (playerManager != null) {
+                    FollowCamera.Target.TrackingTarget = playerManager.transform;
                 }
-                //FollowCamera.Target = new CameraTarget { TrackingTarget = PlayerManager.Instance.transform };
                 FollowCamera.enabled = true;
             }
             else {
@@ -38,7 +39,9 @@ namespace UB
 
         private void OnEnable()
         {
-
+            if (playerManager != null && FollowCamera.Target.TrackingTarget == null) {
+                FollowCamera.Target.TrackingTarget = playerManager.transform;
+            }
         }
 
         private void CreateInstance()
@@ -54,12 +57,19 @@ namespace UB
 
         public void GetNewTarget(PlayerManager newTarget)
         {
-            FollowCamera.Target = new CameraTarget { TrackingTarget = newTarget.transform };
+            FollowCamera.Target.TrackingTarget = newTarget.transform;
         }
 
         private void OnDestroy()
         {
             SceneManager.activeSceneChanged -= OnSceneChange;
+
+            if (Instance == this) {
+                Instance = null;
+            }
+            FollowCamera = null;
+            MainCamera = null;
+            playerManager = null;
         }
     }
 }

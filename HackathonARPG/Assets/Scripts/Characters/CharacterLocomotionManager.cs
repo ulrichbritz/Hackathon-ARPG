@@ -8,5 +8,10 @@ namespace UB
         {
 
         }
+
+        protected virtual void OnDestroy()
+        {
+
+        }
     }
 }

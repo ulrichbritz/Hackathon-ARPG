@@ -48,19 +48,28 @@ namespace UB
         {
             GetVerticalAndHorizontalInputs();
 
-            // Move direction based on camera facing perspective and player input
-            moveDirection = PlayerCamera.Instance.transform.forward * verticalMovement;
-            moveDirection = moveDirection + PlayerCamera.Instance.transform.right * horizontalMovement;
-            moveDirection.Normalize();
-            // dont want to move up and down only backwards left and right
-            moveDirection.y = 0;
+            // Early exit if no movement
+            float movementAmount = PlayerInputManager.Instance.MovementAmount;
+            if (movementAmount <= 0)
+                return;
 
-            if (PlayerInputManager.Instance.MovementAmount > 0.2f) {
+            moveDirection.x = horizontalMovement;
+            moveDirection.y = 0; // Keep on ground plane
+            moveDirection.z = verticalMovement;
+
+            // Normalize only if needed
+            if (moveDirection.sqrMagnitude > 1f) {
+                moveDirection.Normalize();
+            }
+
+            if (movementAmount > 0.5f) {
                 // move at regular speed (run)
                 player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
             }
-
-            // TODO: Maybe add an else for other speeds
+            else if (movementAmount > 0) {
+                // move at walk speed
+                player.characterController.Move(moveDirection * (runningSpeed * 0.5f) * Time.deltaTime);
+            }
         }
 
         private void HandleRotation()
@@ -74,6 +83,13 @@ namespace UB
                 // Smoothly rotate towards target
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            player = null;
         }
     }
 }

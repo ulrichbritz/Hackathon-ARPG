@@ -6,6 +6,9 @@ namespace UB
     public class PlayerInputManager : MonoBehaviour
     {
         public static PlayerInputManager Instance { get; private set; }
+
+        public PlayerManager player;
+
         private PlayerControls playerControls;
 
         private Vector2 movementInput;
@@ -61,6 +64,19 @@ namespace UB
             MovementAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
 
             // TODO: Maybe clamp e.g if moveamount <= 05f, then moveamount = 0.5f;
+            if (MovementAmount <= 0.5 && MovementAmount > 0) {
+                MovementAmount = 0.5f;
+            }
+            else if (MovementAmount > 0.5 && MovementAmount <= 1) {
+                MovementAmount = 1;
+            }
+
+            if (player == null) {
+                return;
+            }
+
+            // Not passing horizontal because we dont want strafing animations
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, MovementAmount);
         }
 
         //Mouse Input
