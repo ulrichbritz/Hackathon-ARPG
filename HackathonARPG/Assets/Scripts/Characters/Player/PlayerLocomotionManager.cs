@@ -15,9 +15,9 @@ namespace UB
 
         // Relative movement values for animations and networking animations
         [HideInInspector]
-        public float relativeHorizontalMovement;
+        public float RelativeHorizontalMovement;
         [HideInInspector]
-        public float relativeVerticalMovement;
+        public float RelativeVerticalMovement;
 
         private Vector3 moveDirection;
 
@@ -36,16 +36,15 @@ namespace UB
             base.Update();
 
             if (player.IsOwner) {
-                player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value = relativeHorizontalMovement;
-                player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value = relativeVerticalMovement;
-                //player.characterNetworkManager.networkMoveAmountParameter.Value = moveAmount;
+                player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value = RelativeHorizontalMovement;
+                player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value = RelativeVerticalMovement;
             }
             else {
-                //moveAmount = player.characterNetworkManager.networkMoveAmountParameter.Value;
-                relativeHorizontalMovement = player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value;
-                relativeVerticalMovement = player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value;
+                //---Movement Animation---//
+                RelativeHorizontalMovement = player.characterNetworkManager.NetworkAnimatorHorizontalParameter.Value;
+                RelativeVerticalMovement = player.characterNetworkManager.NetworkAnimatorVerticalParameter.Value;
 
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(relativeHorizontalMovement, relativeVerticalMovement);
+                player.PlayerAnimatorManager.UpdateAnimatorMovementParameters(RelativeHorizontalMovement, RelativeVerticalMovement);
             }
         }
 
@@ -112,15 +111,15 @@ namespace UB
                 Vector3 localMovement = transform.InverseTransformDirection(worldMovement);
 
                 // Clamp to either 0 or movementAmount based on direction
-                relativeHorizontalMovement = Mathf.Abs(localMovement.x) > 0.1f ? (localMovement.x > 0 ? movementAmount : -movementAmount) : 0;
-                relativeVerticalMovement = Mathf.Abs(localMovement.z) > 0.1f ? (localMovement.z > 0 ? movementAmount : -movementAmount) : 0;
+                RelativeHorizontalMovement = Mathf.Abs(localMovement.x) > 0.1f ? (localMovement.x > 0 ? movementAmount : -movementAmount) : 0;
+                RelativeVerticalMovement = Mathf.Abs(localMovement.z) > 0.1f ? (localMovement.z > 0 ? movementAmount : -movementAmount) : 0;
             }
             else {
-                relativeHorizontalMovement = 0;
-                relativeVerticalMovement = 0;
+                RelativeHorizontalMovement = 0;
+                RelativeVerticalMovement = 0;
             }
 
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(relativeHorizontalMovement, relativeVerticalMovement);
+            player.PlayerAnimatorManager.UpdateAnimatorMovementParameters(RelativeHorizontalMovement, RelativeVerticalMovement);
         }
 
         private void HandleRotation()

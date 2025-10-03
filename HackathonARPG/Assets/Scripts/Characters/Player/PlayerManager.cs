@@ -6,15 +6,15 @@ namespace UB
     public class PlayerManager : CharacterManager
     {
         public static PlayerManager Instance { get; private set; }
-        public PlayerLocomotionManager playerLocomotionManager { get; private set; }
-        public PlayerAnimatorManager playerAnimatorManager { get; private set; }
+        public PlayerLocomotionManager PlayerLocomotionManager { get; private set; }
+        public PlayerAnimatorManager PlayerAnimatorManager { get; private set; }
 
         protected override void Awake()
         {
             base.Awake();
 
-            playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
-            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            PlayerLocomotionManager = GetComponent<PlayerLocomotionManager>();
+            PlayerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         }
 
         protected override void Update()
@@ -26,7 +26,7 @@ namespace UB
             }
 
             // Handle all player movement
-            playerLocomotionManager.HandleAllMovement();
+            PlayerLocomotionManager.HandleAllMovement();
         }
 
         private void CreateInstance()
@@ -46,7 +46,7 @@ namespace UB
             }
         }
 
-        protected override void OnDestroy()
+        public override void OnDestroy()
         {
             base.OnDestroy();
 
@@ -54,8 +54,8 @@ namespace UB
                 Instance = null;
             }
 
-            playerLocomotionManager = null;
-            playerAnimatorManager = null;
+            PlayerLocomotionManager = null;
+            PlayerAnimatorManager = null;
         }
     }
 }

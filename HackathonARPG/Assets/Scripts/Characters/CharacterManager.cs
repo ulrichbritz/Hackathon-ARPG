@@ -28,6 +28,23 @@ namespace UB
                 characterNetworkManager.NetworkRotation.Value = transform.rotation;
             }
             else {
+                //---Position---//
+                // Temporarily disable CharacterController to avoid conflicts with direct position assignment
+                bool wasEnabled = characterController.enabled;
+                characterController.enabled = false;
+
+                // direct assignment for perfect sync
+                transform.position = Vector3.SmoothDamp(
+                    transform.position,
+                    characterNetworkManager.NetworkPosition.Value,
+                    ref characterNetworkManager.NetworkPositionVelocity,
+                    characterNetworkManager.NetworkPositionSmoothTime
+                    );
+
+                // Re-enable CharacterController
+                characterController.enabled = wasEnabled;
+
+                /* Original way that had conflicts due to CharacterController:
                 // Position
                 transform.position = Vector3.SmoothDamp(
                     transform.position,
@@ -35,7 +52,9 @@ namespace UB
                     ref characterNetworkManager.NetworkPositionVelocity,
                     characterNetworkManager.NetworkPositionSmoothTime
                     );
-                // Rotation
+                */
+
+                //--- Rotation ---//
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     characterNetworkManager.NetworkRotation.Value,
@@ -44,8 +63,10 @@ namespace UB
             }
         }
 
-        protected virtual void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
+
             characterController = null;
             animator = null;
             characterNetworkManager = null;
