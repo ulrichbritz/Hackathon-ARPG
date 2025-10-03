@@ -15,11 +15,19 @@ namespace UB
             character = GetComponent<CharacterManager>();
         }
 
-        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue)
+        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, float smoothTime = 0.1f)
         {
             // TODO Create and Use SnapValues (clamped values) if animations dont look good blended
-            character.animator.SetFloat("Horizontal", horizontalValue, 0.1f, Time.deltaTime);
-            character.animator.SetFloat("Vertical", verticalValue, 0.1f, Time.deltaTime);
+            character.animator.SetFloat("Horizontal", horizontalValue, smoothTime, Time.deltaTime);
+            character.animator.SetFloat("Vertical", verticalValue, smoothTime, Time.deltaTime);
+        }
+
+        public virtual void PlayTargetAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, float crossfadeDuration = 0.2f)
+        {
+            character.animator.applyRootMotion = applyRootMotion;
+            character.animator.CrossFade(targetAnimation, crossfadeDuration);
+            // Can stop character from attempting actions while busy with another action
+            character.isPerformingAction = isPerformingAction;
         }
 
         protected virtual void OnDestroy()

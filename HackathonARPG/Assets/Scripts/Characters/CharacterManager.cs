@@ -11,6 +11,9 @@ namespace UB
 
         public CharacterNetworkManager characterNetworkManager { get; private set; }
 
+        [Header("Flags")]
+        public bool isPerformingAction = false;
+
         protected virtual void Awake()
         {
             DontDestroyOnLoad(gameObject);

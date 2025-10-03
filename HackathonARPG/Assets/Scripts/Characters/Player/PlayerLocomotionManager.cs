@@ -6,23 +6,26 @@ namespace UB
     {
         private PlayerManager player;
 
+        [Header("Movement Settings")]
         [HideInInspector]
         public float verticalMovement;
         [HideInInspector]
         public float horizontalMovement;
         [HideInInspector]
         public float moveAmount;
+        private Vector3 moveDirection;
+        [SerializeField]
+        private float runningSpeed = 5f;
 
+        [Header("Animation Parameters")]
         // Relative movement values for animations and networking animations
         [HideInInspector]
         public float RelativeHorizontalMovement;
         [HideInInspector]
         public float RelativeVerticalMovement;
 
-        private Vector3 moveDirection;
-
-        [SerializeField]
-        private float runningSpeed = 5f;
+        [Header("Roll Settings")]
+        private Vector3 rollDirection;
 
         protected override void Awake()
         {
@@ -72,6 +75,10 @@ namespace UB
 
         private void HandleGroundedMovement()
         {
+            if (player.isPerformingAction) {
+                return;
+            }
+
             GetVerticalAndHorizontalInputs();
 
             // Early exit if no movement
@@ -100,6 +107,10 @@ namespace UB
 
         private void HandleAnimationParameters()
         {
+            if (player.isPerformingAction) {
+                return;
+            }
+
             // Get the movement amount (0.5 for walk, 1.0 for run)
             float movementAmount = PlayerInputManager.Instance.MovementAmount;
 
@@ -124,6 +135,10 @@ namespace UB
 
         private void HandleRotation()
         {
+            if (player.isPerformingAction) {
+                return;
+            }
+
             Vector3 mouseDirection = PlayerInputManager.Instance.MouseDirection;
 
             if (mouseDirection != Vector3.zero) {
@@ -133,6 +148,32 @@ namespace UB
                 // Smoothly rotate towards target
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
+        }
+
+        public void AttemptPerformToRoll()
+        {
+            if (player.isPerformingAction) {
+                return;
+            }
+
+            if (moveAmount > 0) {
+                // roll in movement direction
+                rollDirection = moveDirection;
+
+                rollDirection.y = 0;
+                rollDirection.Normalize();
+
+                Quaternion playerRotation = Quaternion.LookRotation(rollDirection);
+                player.transform.rotation = playerRotation;
+
+                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", true, true, false, 0.2f);
+            }
+            else {
+                // Roll in current facing direction
+                player.PlayerAnimatorManager.PlayTargetAnimation("roll_front", true, true, false, 0.2f);
+            }
+
+
         }
 
         protected override void OnDestroy()

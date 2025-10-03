@@ -11,13 +11,18 @@ namespace UB
 
         private PlayerControls playerControls;
 
+        [Header("Movement Input")]
         private Vector2 movementInput;
         public float verticalInput { get; private set; }
         public float horizontalInput { get; private set; }
         public float MovementAmount { get; private set; }
 
+        [Header("Mouse Input")]
         public Vector2 MousePosition { get; private set; }
         public Vector3 MouseDirection { get; private set; }
+
+        [Header("Player Actions")]
+        private bool rollInput;
 
         private void Awake()
         {
@@ -44,6 +49,7 @@ namespace UB
                 playerControls = new PlayerControls();
 
                 playerControls.PlayerMovement.Movement.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
+                playerControls.PlayerActions.Roll.performed += ctx => rollInput = true;
             }
 
             playerControls.Enable();
@@ -51,8 +57,14 @@ namespace UB
 
         private void Update()
         {
+            HandleAllInputs();
+        }
+
+        private void HandleAllInputs()
+        {
             HandleMovementInput();
             HandleMouseInput();
+            HandleRollInput();
         }
 
         //Movement Input
@@ -72,6 +84,7 @@ namespace UB
             }
         }
 
+
         //Mouse Input
         private void HandleMouseInput()
         {
@@ -88,6 +101,20 @@ namespace UB
 
             // Convert to normalized direction (just for rotation, not actual world position)
             MouseDirection = new Vector3(screenDirection.x, 0, screenDirection.y).normalized;
+        }
+
+
+        // Player Actions
+        private void HandleRollInput()
+        {
+            if (rollInput) {
+                rollInput = false;
+
+                // TODO return if menu is open
+
+                //Perform a roll
+                player.PlayerLocomotionManager.AttemptPerformToRoll();
+            }
         }
 
         private void CreateInstance()
@@ -116,6 +143,13 @@ namespace UB
         private void OnDestroy()
         {
             SceneManager.activeSceneChanged -= OnSceneChange;
+
+            if (Instance == this) {
+                Instance = null;
+            }
+
+            player = null;
+            playerControls = null;
         }
     }
 }
